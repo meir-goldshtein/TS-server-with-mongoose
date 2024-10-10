@@ -8,6 +8,8 @@ import  UserRouter  from "./Routers/UserRouter";
 import  TodoRouter  from "./Routers/TodoRouter";
 import PostRouter from "./Routers/PostRouter";
 import AuthRouter from "./Routers/AuthRouter";
+import { ErrorRequestHandler } from "express";
+import { Express, Request, Response, NextFunction } from "express";
 const app = express();
 
 
@@ -16,6 +18,21 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Error handling middleware
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
+      console.error("Invalid JSON:", err);
+      res.status(400).json({ message: "Invalid JSON" });
+    } else {
+      next(err);
+    }
+  };
+  
+  app.use(errorHandler);
+  
+app.use(errorHandler);
+
 app.use('/users', UserRouter);
 app.use('/todos',TodoRouter);
 app.use('/auth',AuthRouter)

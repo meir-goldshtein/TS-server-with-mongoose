@@ -23,6 +23,9 @@ const router = e.Router();
  *             required:
  *               - user_name
  *               - password 
+ *           example:
+ *             user_name: "israel israeli"
+ *             password: "1234"
  *     responses:
  *       200:
  *         description: A successful response

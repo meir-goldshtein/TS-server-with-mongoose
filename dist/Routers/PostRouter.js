@@ -31,4 +31,17 @@ const router = (0, express_1.Router)();
  *         description: A successful response
  */
 router.post("/add", AuthMiddelwares_1.onlySoldiersAndCommanders, PostController_1.createPost);
+/**
+ * @swagger
+ * /posts/get-my-posts:
+ *   get:
+ *     summary: get the connected user posts
+ *     tags:
+ *       - Posts
+ *     responses:
+ *       201:
+ *         description: A successful response
+ */
+//get the connected user posts
+router.get("/get-my-posts", AuthMiddelwares_1.onlySoldiersAndCommanders, PostController_1.getPosts);
 exports.default = router;

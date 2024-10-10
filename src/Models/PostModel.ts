@@ -4,11 +4,12 @@ import validator from "validator";
 
 interface Icomment extends Document {
     content: string;
-    user: ObjectId;
+    author: ObjectId;
 }
 interface Ipost extends Document {
     title: string;
     content: string;
+    author: ObjectId;
     comments: Icomment[];
 }
 
@@ -19,7 +20,7 @@ const commentSchema = new Schema<Icomment>({
         minlength: [3, "content must be at least 3 characters"],
         trim: true,
     },
-    user: {
+    author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         required: [true, "user is required"],
@@ -38,6 +39,11 @@ const postSchema = new Schema<Ipost>({
         required: [true, "content is required"],
         minlength: [3, "content must be at least 3 characters"],
         trim: true,
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: [true, "author is required"],
     },
     comments: {
         type: [commentSchema],

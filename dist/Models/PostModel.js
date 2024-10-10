@@ -13,7 +13,7 @@ const commentSchema = new mongoose_2.Schema({
         minlength: [3, "content must be at least 3 characters"],
         trim: true,
     },
-    user: {
+    author: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "user",
         required: [true, "user is required"],
@@ -31,6 +31,11 @@ const postSchema = new mongoose_2.Schema({
         required: [true, "content is required"],
         minlength: [3, "content must be at least 3 characters"],
         trim: true,
+    },
+    author: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "user",
+        required: [true, "author is required"],
     },
     comments: {
         type: [commentSchema],

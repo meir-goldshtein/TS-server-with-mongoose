@@ -17,14 +17,43 @@ const createPostService = async (userId: string, post: postDto): Promise<Ipost> 
         }
         
         const newPost = new PostModel({ title, content })
+
+        newPost.author = user._id as ObjectId
         await newPost.save()
+
         user.posts.push(newPost._id as ObjectId)
         await user.save()
+
         return newPost
+
     } catch (error) {
         throw error
     }
 }
 
 
-export { createPostService }
+const getPostsService = async (userId: string): Promise<any[]> => {
+    try {
+        const user = await UserModel.findById(userId)
+        if (!user) {
+            throw new Error("user not found")
+        }
+        // return user.populate("posts")
+        // const posts = PostModel.find({author: user._id})
+        const posts = PostModel.find().populate({
+            path: "author",
+            select: "user_name email",
+          }).populate({
+            path: "comments.author",
+            select: "user_name",
+          });
+        return posts
+    } catch (error) {
+        throw error
+    }
+}
+
+
+export { createPostService,
+    getPostsService
+ }

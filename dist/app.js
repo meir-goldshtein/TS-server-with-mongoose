@@ -18,6 +18,18 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+// Error handling middleware
+const errorHandler = (err, req, res, next) => {
+    if (err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
+        console.error("Invalid JSON:", err);
+        res.status(400).json({ message: "Invalid JSON" });
+    }
+    else {
+        next(err);
+    }
+};
+app.use(errorHandler);
+app.use(errorHandler);
 app.use('/users', UserRouter_1.default);
 app.use('/todos', TodoRouter_1.default);
 app.use('/auth', AuthRouter_1.default);

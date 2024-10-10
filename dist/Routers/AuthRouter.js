@@ -27,6 +27,9 @@ const router = express_1.default.Router();
  *             required:
  *               - user_name
  *               - password
+ *           example:
+ *             user_name: "israel israeli"
+ *             password: "1234"
  *     responses:
  *       200:
  *         description: A successful response
